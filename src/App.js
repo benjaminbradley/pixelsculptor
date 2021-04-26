@@ -1,12 +1,50 @@
+import { useState } from 'react';
 import './App.css';
 import BinaryTreeArt from './components/BinaryTreeArt.js';
+import { ConfigProvider } from './contexts/ConfigContext';
+import Config from './components/Config.js';
 
 function App() {
+  const [currentView, setCurrentView] = useState('menu');
+  const VIEWS={
+    CONFIG:3,
+    MENU:2,
+    SCULPT:1
+  };
+  function doMEnu() {
+    setCurrentView(VIEWS.MENU);
+  }
+  function doConfig() {
+    setCurrentView(VIEWS.CONFIG);
+  }
+  function doSculpt() {
+    setCurrentView(VIEWS.SCULPT);
+  }
   return (
     <div className="App">
-      <BinaryTreeArt
-        orientation={'v'}
-      />
+      <ConfigProvider>
+        {currentView === VIEWS.MENU ?
+          <div id="main-menu">
+            <h1>Le Menu</h1>
+            <button onClick={doConfig}>
+              Configure<br/>
+              (Set your palette, etc.)
+          </button>
+            <button onClick={doSculpt}>Sculpt!</button>
+          </div>
+        :
+          <div>
+            <button id='goToMenu' onClick={doMEnu}>Menu</button>
+            {currentView === VIEWS.CONFIG?
+              <Config/>
+            :
+              <BinaryTreeArt
+                orientation={'v'}
+              />
+            }
+          </div>
+        }
+      </ConfigProvider>
     </div>
   );
 }
