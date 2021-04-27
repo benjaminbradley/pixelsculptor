@@ -48,6 +48,7 @@ label {
   text-decoration: underline;
 }
 
+#settings button,
 #main-menu a.button,
 #main-menu button {
   background-color: #ddd;
@@ -83,13 +84,21 @@ label {
   font-color: #ddd;
 }
 #default-color-sample {
-  min-width: 3em;
   background-color: var(--default-color);
+}
+.colorsample {
+  min-width: 3em;
   border: 1px solid black;
   display: inline-block;
   min-height: 1em;
   vertical-align: middle;
   margin-left: 1em;
+}
+#palette-options label {
+  font-size: 1em;
+}
+#palette-options input {
+  margin-right: 0.5em;
 }
 
 .btap {

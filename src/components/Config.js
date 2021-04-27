@@ -1,6 +1,7 @@
 import { useConfigContext, updateConfig, SETTINGS } from '../contexts/ConfigContext';
+import PALETTES from '../palettes';
 
-function Config() {
+function Config({doSculpt}) {
   const { config, dispatch } = useConfigContext();
   function myUpdateConfig(k,v) {
     // store value in context
@@ -9,6 +10,8 @@ function Config() {
     switch(k) {
       case SETTINGS.DEFAULT_COLOR:
         document.documentElement.style.setProperty('--default-color', v);
+        break;
+      case SETTINGS.PALETTE_NAME:
         break;
       default:
         console.log(`Unknown settings key: '${k}'`);
@@ -25,9 +28,34 @@ function Config() {
         <div className='setting'>
             <label htmlFor='default-color'>Default color:</label>
             <input id='default-color' type='text' value={getValue(SETTINGS.DEFAULT_COLOR)} onChange={(e) => myUpdateConfig(SETTINGS.DEFAULT_COLOR, e.target.value)}/>
-            <div id='default-color-sample'/>
+            <div id='default-color-sample' className='colorsample'/>
             <br/><span className='help'>Can be any valid HTML color name, or a code in #rgb or #rrggbb format.</span>
         </div>
+        <div className='setting'>
+            <label>Palette:</label>
+            <div id='palette-options' onChange={(e) => myUpdateConfig(SETTINGS.PALETTE_NAME, e.target.value)}>
+              <div>
+                <input type='radio' name='palette' value={'none'} id={`palette_none`}
+                  checked={config[SETTINGS.PALETTE_NAME] === 'none'}
+                />
+                <label htmlFor={`palette_none`}>None (use default color)</label>
+              </div>
+              {Object.entries(PALETTES).map(([palette_name, palette_colors]) => (
+                <div>
+                  <input type='radio' name='palette' value={palette_name} id={`palette_${palette_name}`}
+                    checked={config[SETTINGS.PALETTE_NAME] === palette_name}
+                  />
+                  <label htmlFor={`palette_${palette_name}`}>
+                    {palette_colors.map(c => (
+                      <div className='colorsample' style={{backgroundColor: c}}/>
+                    ))}
+                  </label>
+                </div>
+              ))}
+            </div>
+            <span className='help'>Palette colors will cycle and repeat with depth.</span>
+        </div>
+        <button onClick={doSculpt}>{`Let's Sculpt!`}</button>
       </div>
     </div>
   );

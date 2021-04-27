@@ -7,11 +7,13 @@ export const ACTIONS = {
 };
 
 export const SETTINGS = {
+  PALETTE_NAME: 'p',
   DEFAULT_COLOR: 'd'
 };
 
 // Initial state
 const initialState = {
+  [SETTINGS.PALETTE_NAME]: 'none',
   [SETTINGS.DEFAULT_COLOR]: '#ddd'
 };
 

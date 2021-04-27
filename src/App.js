@@ -5,12 +5,12 @@ import { ConfigProvider } from './contexts/ConfigContext';
 import Config from './components/Config.js';
 
 function App() {
-  const [currentView, setCurrentView] = useState('menu');
   const VIEWS={
     CONFIG:3,
     MENU:2,
     SCULPT:1
   };
+  const [currentView, setCurrentView] = useState(VIEWS.CONFIG);
   function doMEnu() {
     setCurrentView(VIEWS.MENU);
   }
@@ -37,7 +37,9 @@ function App() {
           <div>
             <button id='goToMenu' onClick={doMEnu}>Menu</button>
             {currentView === VIEWS.CONFIG?
-              <Config/>
+              <Config
+                doSculpt={doSculpt}
+              />
             :
               <BinaryTreeArtPixel
                 depth={0}
