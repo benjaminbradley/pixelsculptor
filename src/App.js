@@ -26,11 +26,12 @@ function App() {
         {currentView === VIEWS.MENU ?
           <div id="main-menu">
             <h1>Le Menu</h1>
+            <button onClick={doSculpt}>Sculpt!</button>
             <button onClick={doConfig}>
               Configure<br/>
               (Set your palette, etc.)
-          </button>
-            <button onClick={doSculpt}>Sculpt!</button>
+            </button>
+            <a target="_blank" rel="noreferrer" className='button' href="https://github.com/benjaminbradley/pixelsculptor#readme">About</a>
           </div>
         :
           <div>
