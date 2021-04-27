@@ -6,13 +6,14 @@ function BinaryTreeArtPixel({
 }) {
   const [ split, setSplit ] = useState(false);
   const classNames=['btap', orientation];
+  if (depth === 0) classNames.push('base');
   return (!split ?
-    <p className={classNames.join(' ')}
+    <div className={classNames.join(' ')}
       onClick={() => setSplit(true)}
       data-depth={depth}
     />
   :
-    <p className={classNames.join(' ')}
+    <div className={classNames.join(' ')}
       data-depth={depth}
     >
         <BinaryTreeArtPixel
@@ -23,7 +24,7 @@ function BinaryTreeArtPixel({
           depth={depth+1}
           orientation={orientation === 'h' ? 'v' : 'h'}
         />
-    </p>
+    </div>
   );
 }
 

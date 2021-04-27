@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import BinaryTreeArt from './components/BinaryTreeArt.js';
+import BinaryTreeArtPixel from './components/BinaryTreeArtPixel.js';
 import { ConfigProvider } from './contexts/ConfigContext';
 import Config from './components/Config.js';
 
@@ -39,7 +39,8 @@ function App() {
             {currentView === VIEWS.CONFIG?
               <Config/>
             :
-              <BinaryTreeArt
+              <BinaryTreeArtPixel
+                depth={0}
                 orientation={'v'}
               />
             }
