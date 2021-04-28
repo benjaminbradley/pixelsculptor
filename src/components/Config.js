@@ -41,13 +41,13 @@ function Config({doSculpt}) {
                 <label htmlFor={`palette_none`}>None (use default color)</label>
               </div>
               {Object.entries(PALETTES).map(([palette_name, palette_colors]) => (
-                <div>
+                <div key={`palette_${palette_name}`}>
                   <input type='radio' name='palette' value={palette_name} id={`palette_${palette_name}`}
                     checked={config[SETTINGS.PALETTE_NAME] === palette_name}
                   />
                   <label htmlFor={`palette_${palette_name}`}>
                     {palette_colors.map(c => (
-                      <div className='colorsample' style={{backgroundColor: c}}/>
+                      <div className='colorsample' style={{backgroundColor: c}} key={`palette_${palette_name}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                     ))}
                   </label>
                 </div>
