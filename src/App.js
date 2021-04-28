@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import BinaryTreeArtPixel from './components/BinaryTreeArtPixel.js';
 import { ConfigProvider } from './contexts/ConfigContext';
 import Config from './components/Config.js';
+import { bitArrayToBase64 } from './lib/binaryTools.js';
 
 function App() {
   const VIEWS={
@@ -11,6 +12,9 @@ function App() {
     SCULPT:1
   };
   const [currentView, setCurrentView] = useState(VIEWS.CONFIG);
+  useEffect(() => {
+    window.location.hash = '';
+  },[]);
   function doMEnu() {
     setCurrentView(VIEWS.MENU);
   }
@@ -19,6 +23,11 @@ function App() {
   }
   function doSculpt() {
     setCurrentView(VIEWS.SCULPT);
+  }
+  function updateSculptPath(bitstream) {
+    const base64 = bitArrayToBase64(bitstream);
+    // update URL
+    window.location.hash = `s=${encodeURIComponent(base64)}`;
   }
   return (
     <div className="App">
@@ -44,6 +53,7 @@ function App() {
               <BinaryTreeArtPixel
                 depth={0}
                 orientation={'v'}
+                onUpdate={updateSculptPath}
               />
             }
           </div>
