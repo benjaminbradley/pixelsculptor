@@ -62,7 +62,7 @@ label {
   margin: 0 auto;
 }
 
-#goToMenu {
+.canvasButtons {
   position: absolute;
   top: 0;
   left: 0;
