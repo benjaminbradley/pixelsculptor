@@ -1,21 +1,29 @@
 import { createContext, useReducer, useContext } from 'react';
 
-export const ConfigContext = createContext();
-
-export const ACTIONS = {
-  UPDATE:1
-};
-
 export const SETTINGS = {
   SCULPT_PATH: 's',
+  PALETTE_TYPE: 'pt',
   PALETTE_NAME: 'p',
   DEFAULT_COLOR: 'd'
 };
 
+export const PALETTE_TYPES = {
+  GRADIENT: 'g',
+  CYCLE: 'c',
+  MONOCHROME: 'm'
+};
+
 // Initial state
 const initialState = {
-  [SETTINGS.PALETTE_NAME]: 'none',
+  [SETTINGS.PALETTE_TYPE]: PALETTE_TYPES.GRADIENT,
+  [SETTINGS.PALETTE_NAME]: 'gs',
   [SETTINGS.DEFAULT_COLOR]: '#ddd'
+};
+
+export const ConfigContext = createContext();
+
+export const ACTIONS = {
+  UPDATE:1
 };
 
 export function parseUrl() {

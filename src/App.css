@@ -75,6 +75,7 @@ label {
 
 .setting {
   text-align: left;
+  margin-bottom: 1em;
 }
 .setting label {
   font-size: 1.5em;
@@ -94,9 +95,20 @@ label {
   vertical-align: middle;
   margin-left: 1em;
 }
+.colorsample.gradient {
+  min-width: 1em;
+  margin-left: 0;
+}
+
+#gradient-options,
+#palette-options {
+  margin-left: 1em;
+}
+#palette-type-options label,
 #palette-options label {
   font-size: 1em;
 }
+#palette-type-options input,
 #palette-options input {
   margin-right: 0.5em;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useConfigContext, SETTINGS } from '../contexts/ConfigContext';
-import PALETTES from '../palettes';
+import { useConfigContext } from '../contexts/ConfigContext';
+import { getColor } from '../lib/paletteTools';
 
 function BinaryTreeArtPixel({
   loadSculptPath,
@@ -62,13 +62,7 @@ function BinaryTreeArtPixel({
   const classNames=['btap', orientation];
   if (depth === 0) classNames.push('base');
 
-  let bg=null;
-  const curPaletteName = config[SETTINGS.PALETTE_NAME];
-  if (curPaletteName && Object.keys(PALETTES).includes(curPaletteName)) {
-    const curPalette = PALETTES[curPaletteName];
-    const palIdx = depth % curPalette.length;
-    bg=curPalette[palIdx];
-  }
+  const bg = getColor(config, depth);
 
   return (!split ?
     <div className={classNames.join(' ')}
