@@ -1,4 +1,4 @@
-import { useConfigContext, updateConfig, SETTINGS } from '../contexts/ConfigContext';
+import { useConfigContext, updateConfig, SETTINGS, updateUrl } from '../contexts/ConfigContext';
 import PALETTES from '../palettes';
 
 function Config({doSculpt}) {
@@ -6,6 +6,7 @@ function Config({doSculpt}) {
   function myUpdateConfig(k,v) {
     // store value in context
     dispatch(updateConfig(k,v));
+    updateUrl(k, v);
     // update CSS
     switch(k) {
       case SETTINGS.DEFAULT_COLOR:
