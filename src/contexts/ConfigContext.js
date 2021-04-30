@@ -31,7 +31,8 @@ export function parseUrl() {
   const params={};
   window.location.hash.substring(1).split('&').forEach(pair => {
     const [key, value] = pair.split('=');
-    params[key] = decodeURIComponent(value);
+    if (value.length)
+      params[key] = decodeURIComponent(value);
   });
   return params;
 }

@@ -6,7 +6,7 @@ import Config from './components/Config.js';
 import { bitArrayToBase64, base64toBitArray, parseBitStream } from './lib/binaryTools.js';
 
 function App() {
-  const { dispatch: configDispatch } = useConfigContext();
+  const { config, dispatch: configDispatch } = useConfigContext();
   const VIEWS={
     CONFIG:3,
     MENU:2,
@@ -23,19 +23,23 @@ function App() {
       }
     });
     // Process sculpt path in URL
-    if (params[SETTINGS.SCULPT_PATH]) {
-      const bitstream = base64toBitArray(params[SETTINGS.SCULPT_PATH]);
-      // replay loaded sculptpath
-      const [sculptPath] = parseBitStream(bitstream, 0);
-      //console.log("Parsed bitstream is:",sculptPath);
-      if (sculptPath.length) {
-        console.log("starting replay");
-        doSculpt();
-        setLoadedSculptPath(sculptPath[0]);
-        console.log("window.performance.memory =",window.performance.memory);
-      }
+    if (params[SETTINGS.SCULPT_PATH] && config[SETTINGS.SCULPT_PATH] !== params[SETTINGS.SCULPT_PATH]) {
+      config[SETTINGS.SCULPT_PATH] = params[SETTINGS.SCULPT_PATH];
     }
   },[window.location.hash]);
+  useEffect(() => {
+    const bitstream = base64toBitArray(config[SETTINGS.SCULPT_PATH]);
+    // replay loaded sculptpath
+    const [sculptPath] = parseBitStream(bitstream, 0);
+    //console.log("Parsed bitstream is:",sculptPath);
+    if (sculptPath.length) {
+      console.log("starting replay");
+      doSculpt();
+      setLoadedSculptPath(sculptPath[0]);
+      console.log("window.performance.memory =",window.performance.memory);
+    }
+  }, [config[SETTINGS.SCULPT_PATH]])
+
   function doMEnu() {
     setCurrentView(VIEWS.MENU);
   }
