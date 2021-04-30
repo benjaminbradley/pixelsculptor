@@ -12,6 +12,7 @@ function Config({doSculpt}) {
       case SETTINGS.DEFAULT_COLOR:
         document.documentElement.style.setProperty('--default-color', v);
         break;
+      case SETTINGS.PALETTE_TYPE:
       case SETTINGS.PALETTE_NAME:
       case SETTINGS.GRADIENT_NAME:
         break;
