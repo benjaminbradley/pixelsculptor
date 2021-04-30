@@ -28,6 +28,7 @@ function App() {
     }
   },[window.location.hash]);
   useEffect(() => {
+    if (!config[SETTINGS.SCULPT_PATH]) return;
     const bitstream = base64toBitArray(config[SETTINGS.SCULPT_PATH]);
     // replay loaded sculptpath
     const [sculptPath] = parseBitStream(bitstream, 0);
