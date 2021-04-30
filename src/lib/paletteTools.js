@@ -23,6 +23,29 @@ export const GRADIENTS = {
     0: '#f9d5e5',
     15: '#c83349'
   },
+  c: {
+    0: '#80ced6',
+    6: '#622569',
+    15: '#000'
+  },
+  d: {
+    0: '#f00',
+    5: '#0f0',
+    10: '#00f',
+    15: '#f00'
+  },
+  e: {
+    0: '#0f0',
+    5: '#00f',
+    10: '#f00',
+    15: '#0f0'
+  },
+  f: {
+    0: '#00f',
+    5: '#f00',
+    10: '#0f0',
+    15: '#00f'
+  },
   gs: {
     0: '#fff',
     15: '#000'
@@ -103,19 +126,31 @@ function getBetween(init, final, percent) {
 
 //TODO: memoize
 export function getGradientEntries(gradient_points) {
-  const minDepth = Math.min(...Object.keys(gradient_points).map(i=>parseInt(i)));
-  const maxDepth = Math.max(...Object.keys(gradient_points).map(i=>parseInt(i)));
+  const sortedDepthPoints = Object.keys(gradient_points).map(i=>parseInt(i))
+  .sort((a,b) => { return (a < b ? -1 : (a === b ? 0 : 1))});
+  let minIdx = 0;
+  let maxIdx = 1;
   const gradColors = {};
-  const initialColor = colorToRGBA(gradient_points[minDepth]);
-  const finalColor = colorToRGBA(gradient_points[maxDepth]);
-  for (let i=minDepth; i<=maxDepth; i++) {
-    const percent = i/(maxDepth-minDepth);
-    const colorPoint = [];
-    for (let j=0; j<3; j++) {
-      colorPoint[j] = Math.round(getBetween(initialColor[j], finalColor[j], percent));
+  while (maxIdx < sortedDepthPoints.length) {
+    let minDepth = sortedDepthPoints[minIdx];
+    let maxDepth = sortedDepthPoints[maxIdx];
+    const initialColor = colorToRGBA(gradient_points[minDepth]);
+    const finalColor = colorToRGBA(gradient_points[maxDepth]);
+    for (let i=minDepth; i<=maxDepth; i++) {
+      const percent = (i-minDepth)/(maxDepth-minDepth);
+      const colorPoint = [];
+      for (let j=0; j<3; j++) {
+        colorPoint[j] = Math.round(getBetween(initialColor[j], finalColor[j], percent));
+      }
+      const c = '#'.concat(
+        colorPoint[0].toString(16).padStart(2, '0'),
+        colorPoint[1].toString(16).padStart(2, '0'),
+        colorPoint[2].toString(16).padStart(2, '0')
+      );
+      gradColors[i] = c;
     }
-    const c = '#'.concat(colorPoint[0].toString(16), colorPoint[1].toString(16), colorPoint[2].toString(16));
-    gradColors[i] = c;
+    minIdx++;
+    maxIdx++;
   }
   return gradColors;
 }

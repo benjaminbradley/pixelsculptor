@@ -61,7 +61,7 @@ function Config({doSculpt}) {
                   : null}
                   {PALETTE_TYPES.GRADIENT === key && config[SETTINGS.PALETTE_TYPE] === key ?
                     <div id='gradient-options'>
-                      <span className='help'>Palette colors transition between two colors.</span>
+                      <span className='help'>Palette colors transition between two or more colors.</span>
                       {Object.entries(GRADIENTS).map(([gradient_name, gradient_points]) => (
                         <div key={`palette_gradient_${gradient_name}`}>
                           <input type='radio' name='palette' value={gradient_name} id={`palette_gradient_${gradient_name}`}
@@ -70,7 +70,7 @@ function Config({doSculpt}) {
                           />
                           <label htmlFor={`palette_gradient_${gradient_name}`}>
                             {Object.entries(getGradientEntries(gradient_points)).map(([d,c]) => (
-                              <div className='colorsample gradient' style={{backgroundColor: c}} key={`palette_gradient_${gradient_name}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
+                              <div className='colorsample gradient' style={{backgroundColor: c}} key={`palette_gradient_${gradient_name}_${d}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                             ))}
                           </label>
                         </div>
