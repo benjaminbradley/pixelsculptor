@@ -112,6 +112,37 @@ label {
 #palette-options input {
   margin-right: 0.5em;
 }
+.custom-palette-creator {
+  margin-left: 1em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+}
+.custom-palette-creator th,
+.custom-palette-creator td {
+  border-left: 1px dashed black;
+  padding-left: 1em;
+}
+.custom-palette-creator th.first,
+.custom-palette-creator td.first {
+  border-left: none;
+}
+.custom-palette-creator input {
+  width: 7em;
+}
+#settings .custom-palette-creator button {
+  display: inline-block;
+  padding: 0em;
+  font-size: 1em;
+  margin: 0 0.5em;
+}
+#settings .custom-palette-creator button.add-entry {
+  width: 3em;
+  margin: auto;
+}
+#settings .custom-palette-creator button.remove,
+#settings .custom-palette-creator button.add-before {
+  width: 2em;
+}
 
 .btap {
   margin: calc(-1 * var(--border-size));

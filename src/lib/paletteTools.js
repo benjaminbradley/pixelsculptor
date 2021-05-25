@@ -1,6 +1,7 @@
 import { SETTINGS, PALETTE_TYPES } from '../contexts/ConfigContext';
 
 export const PALETTES = {
+  custom: [],
   a: ['#b2b2b2', '#50394c', '#f4e1d2', '#ffef96'],
   b: ['#80ced6', '#d5f4e6', '#fefbd8', '#618685'],
   c: ['#034f84', '#92a8d1', '#f7cac9', '#f7786b'],
@@ -15,6 +16,7 @@ export const PALETTES = {
 };
 
 export const GRADIENTS = {
+  custom: {},
   a: {
     0: '#fefbd8',
     15: '#4040a1'
@@ -52,32 +54,84 @@ export const GRADIENTS = {
   }
 }
 
+// serialize a colorSet to string
+export function encodeCustomPalette(colorSet, type) {
+  if (type === PALETTE_TYPES.CYCLE) {
+    return colorSet.map(e => e.colorCode).join(',')
+  } else if (type === PALETTE_TYPES.GRADIENT) {
+    const gradientDef = colorSetToGradientDef(colorSet);
+    return Object.entries(gradientDef).map(([k,v]) => `${k}:${v}`).join(',')
+  }
+  console.log(`ERROR: Unknown CustomPalette type: '${type}'`);
+  return null;
+}
+
+// deserialize a string to colorSet structure
+export function decodeCustomPalette(customPaletteString, type) {
+  if (type === PALETTE_TYPES.CYCLE) {
+    return customPaletteString.split(',').map(cc => ({colorCode: cc}));
+  } else if (type === PALETTE_TYPES.GRADIENT) {
+    const colorSet = [];
+    customPaletteString.split(',').forEach(gradEntry => {
+      const [ index, color ] = gradEntry.split(':');
+      colorSet[index] = {colorCode: color};
+    });
+    // fill empty entries
+    for (let i=0; i<colorSet.length; i++) {
+      if (!colorSet[i]) colorSet[i] = {colorCode:''};
+    }
+    return colorSet;
+  }
+  console.log(`ERROR: Unknown CustomPalette type: '${type}'`);
+  return null;
+}
+
+export function colorSetToGradientDef(colorSet) {
+  // convert colorSet (array of objects w/ colorCode attribute) to gradientDef (object w/ depth indices/colorCode values)
+  const gradientDef = {};
+  for (let i=0; i<colorSet.length; i++) {
+    if (colorSet[i] && 'colorCode' in colorSet[i] && colorSet[i].colorCode) {
+      gradientDef[i] = colorSet[i].colorCode;
+    }
+  }
+  return gradientDef;
+}
+
+//TODO: memoize
 export function getColor(config, depth) {
   switch (config[SETTINGS.PALETTE_TYPE]) {
     case PALETTE_TYPES.MONOCHROME:
       return config[SETTINGS.DEFAULT_COLOR];
     case PALETTE_TYPES.CYCLE:
       const curPaletteName = config[SETTINGS.PALETTE_NAME];
-      if (curPaletteName && Object.keys(PALETTES).includes(curPaletteName)) {
-        const curPalette = PALETTES[curPaletteName];
-        const palIdx = depth % curPalette.length;
-        return curPalette[palIdx];
+      let curPalette;
+      if (curPaletteName === 'custom') {
+        const customPalette = decodeCustomPalette(config[SETTINGS.CUSTOM_PALETTE], PALETTE_TYPES.CYCLE);
+        curPalette = customPalette.map(e => e.colorCode);
+      } else if (curPaletteName && Object.keys(PALETTES).includes(curPaletteName)) {
+        curPalette = PALETTES[curPaletteName];
       } else {
         console.log(`ERROR: Unknown Cycle Palette name '${curPaletteName}'`)
         return null;
       }
+      const palIdx = depth % curPalette.length;
+      return curPalette[palIdx];
       // eslint-disable-next-line no-fallthrough
     case PALETTE_TYPES.GRADIENT:
       const gradPaletteName = config[SETTINGS.PALETTE_NAME];
-      if (gradPaletteName && Object.keys(GRADIENTS).includes(gradPaletteName)) {
-        const curGradient = GRADIENTS[gradPaletteName];
-        const gradColors = getGradientEntries(curGradient);
-        if (Object.keys(gradColors).map(i=>parseInt(i)).includes(depth)) return gradColors[depth];
-        return config[SETTINGS.DEFAULT_COLOR];
+      let curGradient;
+      if (gradPaletteName === 'custom') {
+        const colorSet = decodeCustomPalette(config[SETTINGS.CUSTOM_PALETTE], PALETTE_TYPES.GRADIENT);
+        curGradient = colorSetToGradientDef(colorSet);
+      } else if (gradPaletteName && Object.keys(GRADIENTS).includes(gradPaletteName)) {
+        curGradient = GRADIENTS[gradPaletteName];
       } else {
         console.log(`ERROR: Unknown Gradient Palette name '${gradPaletteName}'`)
         return null;
       }
+      const gradColors = getGradientEntries(curGradient);
+      if (Object.keys(gradColors).map(i=>parseInt(i)).includes(depth)) return gradColors[depth];
+      return config[SETTINGS.DEFAULT_COLOR];
       // eslint-disable-next-line no-fallthrough
     default:
       return null;
@@ -134,8 +188,10 @@ export function getGradientEntries(gradient_points) {
   while (maxIdx < sortedDepthPoints.length) {
     let minDepth = sortedDepthPoints[minIdx];
     let maxDepth = sortedDepthPoints[maxIdx];
-    const initialColor = colorToRGBA(gradient_points[minDepth]);
-    const finalColor = colorToRGBA(gradient_points[maxDepth]);
+    let initialColor = colorToRGBA(gradient_points[minDepth]);
+    if (!initialColor) initialColor = [0,0,0];  // use a default for invalid values
+    let finalColor = colorToRGBA(gradient_points[maxDepth]);
+    if (!finalColor) finalColor = [0,0,0];  // use a default for invalid values
     for (let i=minDepth; i<=maxDepth; i++) {
       const percent = (i-minDepth)/(maxDepth-minDepth);
       const colorPoint = [];

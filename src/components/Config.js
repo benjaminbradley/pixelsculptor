@@ -1,24 +1,37 @@
 import { useConfigContext, updateConfig, SETTINGS, updateUrl, PALETTE_TYPES } from '../contexts/ConfigContext';
-import { PALETTES, GRADIENTS, getGradientEntries } from '../lib/paletteTools';
+import CustomPalette from './CustomPalette';
+import { PALETTES, GRADIENTS, getGradientEntries, decodeCustomPalette, encodeCustomPalette } from '../lib/paletteTools';
 
 function Config({doSculpt}) {
   const { config, dispatch } = useConfigContext();
   function myUpdateConfig(k,v) {
-    // store value in context
-    dispatch(updateConfig(k,v));
-    updateUrl(k, v);
-    // update CSS
+    // side effects: update CSS, etc.
     switch(k) {
       case SETTINGS.DEFAULT_COLOR:
         document.documentElement.style.setProperty('--default-color', v);
         break;
       case SETTINGS.PALETTE_TYPE:
+        // if custom palette is non-blank, and switching between cycle/gradient, convert the format
+        if ( config[SETTINGS.CUSTOM_PALETTE]
+          && [PALETTE_TYPES.CYCLE, PALETTE_TYPES.GRADIENT].includes(config[SETTINGS.PALETTE_TYPE])
+          && [PALETTE_TYPES.CYCLE, PALETTE_TYPES.GRADIENT].includes(v)
+          && config[SETTINGS.PALETTE_TYPE] !== v
+        ) {
+          const oldColorSet = decodeCustomPalette(config[SETTINGS.CUSTOM_PALETTE], config[SETTINGS.PALETTE_TYPE]);
+          const newCustomPalette = encodeCustomPalette(oldColorSet, v);
+          dispatch(updateConfig(SETTINGS.CUSTOM_PALETTE, newCustomPalette));
+          updateUrl(SETTINGS.CUSTOM_PALETTE, newCustomPalette);
+        }
+        break;
       case SETTINGS.PALETTE_NAME:
       case SETTINGS.GRADIENT_NAME:
         break;
       default:
         console.log(`Unknown settings key: '${k}'`);
     }
+    // store value in context
+    dispatch(updateConfig(k,v));
+    updateUrl(k, v);
   }
   function getValue(key) {
     if (Object.keys(config).includes(key)) return config[key];
@@ -52,10 +65,17 @@ function Config({doSculpt}) {
                             onChange={(e) => myUpdateConfig(SETTINGS.PALETTE_NAME, e.target.value)}
                           />
                           <label htmlFor={`palette_cycle_${palette_name}`}>
-                            {palette_colors.map(c => (
+                            {palette_name === 'custom' ?
+                              <span>custom</span>
+                            : palette_colors.map(c => (
                               <div className='colorsample' style={{backgroundColor: c}} key={`palette_cycle_${palette_name}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                             ))}
                           </label>
+                          {palette_name === 'custom' && config[SETTINGS.PALETTE_NAME] === palette_name && (
+                            <CustomPalette
+                              type={key}
+                            />
+                          )}
                         </div>
                       ))}
                     </div>                      
@@ -70,10 +90,17 @@ function Config({doSculpt}) {
                             onChange={(e) => myUpdateConfig(SETTINGS.PALETTE_NAME, e.target.value)}
                           />
                           <label htmlFor={`palette_gradient_${gradient_name}`}>
-                            {Object.entries(getGradientEntries(gradient_points)).map(([d,c]) => (
+                            {gradient_name === 'custom' ?
+                              <span>custom</span>
+                            : Object.entries(getGradientEntries(gradient_points)).map(([d,c]) => (
                               <div className='colorsample gradient' style={{backgroundColor: c}} key={`palette_gradient_${gradient_name}_${d}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                             ))}
                           </label>
+                          {gradient_name === 'custom' && config[SETTINGS.PALETTE_NAME] === gradient_name && (
+                            <CustomPalette
+                              type={key}
+                            />
+                          )}
                         </div>
                       ))}
                     </div>

@@ -1,6 +1,7 @@
 import { createContext, useReducer, useContext } from 'react';
 
 export const SETTINGS = {
+  CUSTOM_PALETTE: 'cp',
   SCULPT_PATH: 's',
   PALETTE_TYPE: 'pt',
   PALETTE_NAME: 'p',
