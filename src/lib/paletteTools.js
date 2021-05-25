@@ -68,6 +68,7 @@ export function encodeCustomPalette(colorSet, type) {
 
 // deserialize a string to colorSet structure
 export function decodeCustomPalette(customPaletteString, type) {
+  if (!customPaletteString) return [];
   if (type === PALETTE_TYPES.CYCLE) {
     return customPaletteString.split(',').map(cc => ({colorCode: cc}));
   } else if (type === PALETTE_TYPES.GRADIENT) {
