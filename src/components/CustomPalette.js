@@ -63,20 +63,25 @@ function CustomPalette({
               <div className='colorsample' style={{backgroundColor: (e.colorCode ? e.colorCode : getGradColor(i))}} />
             </th>
           )}
-          <th rowSpan="3"><button onClick={addEntryToEnd} className="add-entry"><img src={addIcon} alt="Add palette entry to end"/></button></th>
+          <th rowSpan="3">
+            <button onClick={addEntryToEnd} className="add-entry" title="Add palette entry">
+            <img src={addIcon} alt="Add palette entry to end"/></button>
+          </th>
         </tr>
         <tr>
           {colorSet.map((ce,i) =>
             <td key={`custpalcr_code_${i}`} className={i===0 ? 'first' : null}>
-              <input type='text' value={ce.colorCode} onChange={(e) => updateColor(i, e.target.value)}/>
+              <input type='text' value={ce.colorCode} onChange={(e) => updateColor(i, e.target.value)} placeholder="#RRGGBB"
+                title="Enter an HTML color name or code in #RGB or #RRGGBB hexadecimal format"
+              />
             </td>
           )}
         </tr>
         <tr>
           {colorSet.map((e,i) =>
             <td key={`custpalcr_ops_${i}`} className={i===0 ? 'first' : null}>
-              <button onClick={() => addEntryAt(i)} className="add-before"><img src={addIcon} alt="Add palette entry before this"/></button>
-              <button onClick={() => delEntryAt(i)} className="remove"><img src={delIcon} alt="Remove this palette entry"/></button>
+              <button onClick={() => addEntryAt(i)} className="add-before" title="Add palette entry before this one"><img src={addIcon} alt="Add palette entry before this"/></button>
+              <button onClick={() => delEntryAt(i)} className="remove" title="Remove this palette entry"><img src={delIcon} alt="Remove this palette entry"/></button>
             </td>
           )}
         </tr>
