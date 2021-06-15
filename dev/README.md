@@ -1,11 +1,16 @@
 # Local Development
 
 1. Run the app in a docker-based development environment:
-  `./dockdev.sh`
+  `dev/dockdev.sh start`
 
 2. Run a command within the container (e.g. yarn commands)
-  `docker exec -it $DOCKER_CONTAINER <command>`
+  `dev/dockdev.sh cmd <command>`
   e.g.
-  `docker exec -it $DOCKER_CONTAINER yarn install package`
+  `dev/dockdev.sh cmd yarn install package`
 
-#TODO: add start / cmd / stop to dockdev.sh
+3. To stop the docker container:
+  `dev/dockdev.sh stop`
+
+## Customizations
+
+You can customize the name of the image that gets build, the container name, and the port. See localdev.env.dist
