@@ -1,24 +1,27 @@
 {
   "files": {
-    "main.css": "./static/css/main.ef89f270.chunk.css",
-    "main.js": "./static/js/main.64574aee.chunk.js",
-    "main.js.map": "./static/js/main.64574aee.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.b768f306.js",
-    "runtime-main.js.map": "./static/js/runtime-main.b768f306.js.map",
-    "static/js/2.a6c781aa.chunk.js": "./static/js/2.a6c781aa.chunk.js",
-    "static/js/2.a6c781aa.chunk.js.map": "./static/js/2.a6c781aa.chunk.js.map",
-    "static/js/3.26f2835d.chunk.js": "./static/js/3.26f2835d.chunk.js",
-    "static/js/3.26f2835d.chunk.js.map": "./static/js/3.26f2835d.chunk.js.map",
+    "main.css": "./static/css/main.3fecdc91.chunk.css",
+    "main.js": "./static/js/main.9432d8c8.chunk.js",
+    "main.js.map": "./static/js/main.9432d8c8.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.f7e1f205.js",
+    "runtime-main.js.map": "./static/js/runtime-main.f7e1f205.js.map",
+    "static/js/2.89bf2c61.chunk.js": "./static/js/2.89bf2c61.chunk.js",
+    "static/js/2.89bf2c61.chunk.js.map": "./static/js/2.89bf2c61.chunk.js.map",
+    "static/js/3.4917aaff.chunk.js": "./static/js/3.4917aaff.chunk.js",
+    "static/js/3.4917aaff.chunk.js.map": "./static/js/3.4917aaff.chunk.js.map",
     "index.html": "./index.html",
-    "static/css/main.ef89f270.chunk.css.map": "./static/css/main.ef89f270.chunk.css.map",
-    "static/js/2.a6c781aa.chunk.js.LICENSE.txt": "./static/js/2.a6c781aa.chunk.js.LICENSE.txt",
+    "static/css/main.3fecdc91.chunk.css.map": "./static/css/main.3fecdc91.chunk.css.map",
+    "static/js/2.89bf2c61.chunk.js.LICENSE.txt": "./static/js/2.89bf2c61.chunk.js.LICENSE.txt",
     "static/media/ftadd.17ed1b53.svg": "./static/media/ftadd.17ed1b53.svg",
-    "static/media/ftedit-remove.6b6c8a76.svg": "./static/media/ftedit-remove.6b6c8a76.svg"
+    "static/media/ftbrackets.2ca1db48.svg": "./static/media/ftbrackets.2ca1db48.svg",
+    "static/media/ftedit-remove.6b6c8a76.svg": "./static/media/ftedit-remove.6b6c8a76.svg",
+    "static/media/ftinscol.0fd71b40.svg": "./static/media/ftinscol.0fd71b40.svg",
+    "static/media/ftpencil.8ab7c672.svg": "./static/media/ftpencil.8ab7c672.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b768f306.js",
-    "static/js/2.a6c781aa.chunk.js",
-    "static/css/main.ef89f270.chunk.css",
-    "static/js/main.64574aee.chunk.js"
+    "static/js/runtime-main.f7e1f205.js",
+    "static/js/2.89bf2c61.chunk.js",
+    "static/css/main.3fecdc91.chunk.css",
+    "static/js/main.9432d8c8.chunk.js"
   ]
 }
