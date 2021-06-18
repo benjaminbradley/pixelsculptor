@@ -9,7 +9,6 @@ function App() {
   const { config, dispatch: configDispatch } = useConfigContext();
   const VIEWS={
     CONFIG:3,
-    MENU:2,
     SCULPT:1
   };
   const [currentView, setCurrentView] = useState(VIEWS.CONFIG);
@@ -41,9 +40,6 @@ function App() {
     }
   }, [config[SETTINGS.SCULPT_PATH]])
 
-  function doMEnu() {
-    setCurrentView(VIEWS.MENU);
-  }
   function doConfig() {
     setCurrentView(VIEWS.CONFIG);
   }
@@ -60,34 +56,22 @@ function App() {
   }
   return (
     <div className="App">
-      {currentView === VIEWS.MENU ?
-        <div id="main-menu">
-          <h1>Le Menu</h1>
-          <button onClick={doSculpt}>Sculpt!</button>
-          <button onClick={doConfig}>
-            Configure<br/>
-            (Set your palette, etc.)
-          </button>
-          <a target="_blank" rel="noreferrer" className='button' href="https://github.com/benjaminbradley/pixelsculptor#readme">About</a>
-        </div>
+      {currentView === VIEWS.CONFIG ?
+        <Config
+          doSculpt={doSculpt}
+        />
       :
         <div>
           <div className='canvasButtons'>
-            <button id='goToMenu' onClick={doMEnu}>Menu</button>
+            <button onClick={doConfig}>Palette</button>
             <button onClick={resetSculpture}>Reset</button>
           </div>
-          {currentView === VIEWS.CONFIG?
-            <Config
-              doSculpt={doSculpt}
-            />
-          :
-            <BinaryTreeArtPixel
-              depth={0}
-              orientation={'v'}
-              onUpdate={updateSculptPath}
-              loadSculptPath={loadedSculptPath}
-            />
-          }
+          <BinaryTreeArtPixel
+            depth={0}
+            orientation={'v'}
+            onUpdate={updateSculptPath}
+            loadSculptPath={loadedSculptPath}
+          />
         </div>
       }
     </div>

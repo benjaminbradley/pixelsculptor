@@ -113,6 +113,7 @@ function Config({doSculpt}) {
           <br/><span className='help'>Can be any valid HTML color name, or a code in #rgb or #rrggbb format.</span>
         </div>
         <button onClick={doSculpt}>{`Let's Sculpt!`}</button>
+        <a target="_blank" rel="noreferrer" className='big button' href="https://github.com/benjaminbradley/pixelsculptor#readme">About</a>
       </div>
     </div>
   );
