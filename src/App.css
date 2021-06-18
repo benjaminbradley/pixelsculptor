@@ -23,8 +23,10 @@
 h1 {
   font-size:3em;
 }
+button,
 a.button {
-  border: 2px solid black;
+  border: 2px solid;
+  border-color: #aaa black black #aaa;
   color: black;
   text-decoration: none;
 }
@@ -112,15 +114,37 @@ label {
 #palette-options input {
   margin-right: 0.5em;
 }
+.custom-palette-creator-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  opacity: 0.5;
+  z-index: 1000;
+}
+.custom-palette-creator-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90vw;
+  height: 90vh;
+  margin: 5vh 5vw;
+  background-color: #fff;
+  z-index: 1001;
+  text-align: center;
+}
 .custom-palette-creator {
-  margin-left: 1em;
-  margin-bottom: 1em;
+  display: inline-block;
+  margin: 1em auto;
   padding: 0.5em;
+  max-width: 90vw;
 }
 .custom-palette-creator th,
 .custom-palette-creator td {
   border-left: 1px dashed black;
-  padding-left: 1em;
+  padding-left: 0.5em;
 }
 .custom-palette-creator th.first,
 .custom-palette-creator td.first {
@@ -129,19 +153,47 @@ label {
 .custom-palette-creator input {
   width: 7em;
 }
+#settings button.edit,
 #settings .custom-palette-creator button {
   display: inline-block;
   padding: 0em;
   font-size: 1em;
-  margin: 0 0.5em;
+  margin: 0;
+}
+#settings button.edit {
+  margin-left: 1em;
+}
+#settings .custom-palette-creator button.close {
+  width: 2em;
+  float: left;
+  margin: 0.5em;
 }
 #settings .custom-palette-creator button.add-entry {
   width: 3em;
   margin: auto;
 }
+#settings .custom-palette-creator button.edit,
 #settings .custom-palette-creator button.remove,
 #settings .custom-palette-creator button.add-before {
   width: 2em;
+  margin: 0;
+}
+#settings button.edit {
+  width: 1.5em;
+}
+#settings .custom-palette-creator button.add-before img {
+  transform: scaleX(-1);
+}
+#settings .customPalette {
+  display: inline;
+}
+.customPalette span {
+  margin-left: 1em;
+}
+.palette-entries {
+}
+.palette-entry {
+  display: inline-block;
 }
 
 .btap {

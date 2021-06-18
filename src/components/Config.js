@@ -4,6 +4,7 @@ import { PALETTES, GRADIENTS, getGradientEntries, decodeCustomPalette, encodeCus
 
 function Config({doSculpt}) {
   const { config, dispatch } = useConfigContext();
+
   function myUpdateConfig(k,v) {
     // side effects: update CSS, etc.
     switch(k) {
@@ -65,17 +66,15 @@ function Config({doSculpt}) {
                             onChange={(e) => myUpdateConfig(SETTINGS.PALETTE_NAME, e.target.value)}
                           />
                           <label htmlFor={`palette_cycle_${palette_name}`}>
-                            {palette_name === 'custom' ?
-                              <span>custom</span>
-                            : palette_colors.map(c => (
+                            {palette_name === 'custom' &&
+                              <CustomPalette
+                                type={key}
+                              />
+                            }
+                            {palette_colors.map(c => (
                               <div className='colorsample' style={{backgroundColor: c}} key={`palette_cycle_${palette_name}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                             ))}
                           </label>
-                          {palette_name === 'custom' && config[SETTINGS.PALETTE_NAME] === palette_name && (
-                            <CustomPalette
-                              type={key}
-                            />
-                          )}
                         </div>
                       ))}
                     </div>                      
@@ -90,17 +89,15 @@ function Config({doSculpt}) {
                             onChange={(e) => myUpdateConfig(SETTINGS.PALETTE_NAME, e.target.value)}
                           />
                           <label htmlFor={`palette_gradient_${gradient_name}`}>
-                            {gradient_name === 'custom' ?
-                              <span>custom</span>
-                            : Object.entries(getGradientEntries(gradient_points)).map(([d,c]) => (
+                            {gradient_name === 'custom' &&
+                              <CustomPalette
+                                type={key}
+                              />
+                            }
+                            {Object.entries(getGradientEntries(gradient_points)).map(([d,c]) => (
                               <div className='colorsample gradient' style={{backgroundColor: c}} key={`palette_gradient_${gradient_name}_${d}_${c.replace(/[^0-9a-zA-Z]/, '')}`}/>
                             ))}
                           </label>
-                          {gradient_name === 'custom' && config[SETTINGS.PALETTE_NAME] === gradient_name && (
-                            <CustomPalette
-                              type={key}
-                            />
-                          )}
                         </div>
                       ))}
                     </div>
